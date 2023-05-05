@@ -6,7 +6,6 @@
 
 namespace CTRPluginFramework
 {
-    // This patch the NFC disabling the touchscreen when scanning an amiibo, which prevents ctrpf to be used
     static void    ToggleTouchscreenForceOn(void)
     {
         static u32 original = 0;
@@ -53,53 +52,52 @@ exit:
         svcCloseHandle(processHandle);
     }
 
-    // This function is called before main and before the game starts
-    // Useful to do code edits safely
     void    PatchProcess(FwkSettings &settings)
     {
         ToggleTouchscreenForceOn();
     }
 
-    // This function is called when the process exits
-    // Useful to save settings, undo patchs or clean up things
     void    OnProcessExit(void)
     {
         ToggleTouchscreenForceOn();
     }
 
-    void    InitMenu(PluginMenu &menu)
+    bool    InitMenu(PluginMenu &menu)
     {
-        // Create your entries here, or elsewhere
-        // You can create your entries whenever/wherever you feel like it
-        
-        // Example entry
-        /*menu += new MenuEntry("Test", nullptr, [](MenuEntry *entry)
+        if(Process::GetTitleID() != 0004000000126100)
         {
-            std::string body("What's the answer ?\n");
-
-            body += std::to_string(42);
-
-            MessageBox("UA", body)();
-        });*/
+            // todo : check game version (different game version = different addresses and offsets)
+            OSD::Notify("Plugin stopped : different TitleID detected.");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     int     main(void)
     {
         PluginMenu *menu = new PluginMenu("Action Replay", 0, 7, 4,
-                                            "A blank template plugin.\nGives you access to the ActionReplay and others tools.");
+                                            "An MH4U plugin.\nGives you access to cheats, AR codes and others tools.");
 
-        // Synnchronize the menu with frame event
         menu->SynchronizeWithFrame(true);
 
-        // Init our menu entries & folders
-        InitMenu(*menu);
+        if(InitMenu(*menu))
+        {
 
-        // Launch menu and mainloop
+        }
+        else
+        {
+            goto END;
+        }
+
         menu->Run();
+
+        END:
 
         delete menu;
 
-        // Exit plugin
         return (0);
     }
 }

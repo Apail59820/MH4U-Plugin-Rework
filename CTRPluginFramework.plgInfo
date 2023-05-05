@@ -1,4 +1,4 @@
-Author: Nanquitas
+Author: Krog
 
 Version: # Plugin version
     Major: 0
@@ -7,12 +7,12 @@ Version: # Plugin version
 
 Targets: # Low TitleId of games which are compatibles with this plugin (0 for all)
 
-Title: CTRPF - Blank Template
+Title: CTRPF - Krog's Plugin
 
-Summary: A CTRPF Plugin, with a lot of tools
+Summary: A Plugin based on CTRPF, with a lot of codes and embedded tools
 
 Description: |
-  This plugin gives you access to a set of tools to edit your games
+  This plugin gives you access to a set of tools to edit your games plus a variety of cheat codes.
 
   Features:
     - Memory searcher
@@ -23,3 +23,4 @@ Description: |
     - Super fast screenshot engine
 
 Compatibility: Any
+MemorySize: 5MiB
