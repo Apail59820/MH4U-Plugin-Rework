@@ -66,10 +66,11 @@ exit:
 
     bool    InitMenu(PluginMenu &menu)
     {
-        if(Process::GetTitleID() != 0004000000126100)
+        string titleID;
+        Process::GetTitleID(titleID);
+
+        if(titleID != "0004000000126100" || (Process::GetVersion() != 0x410 /*v1.1*/))
         {
-            // todo : check game version (different game version = different addresses and offsets)
-            OSD::Notify("Plugin stopped : different TitleID detected.");
             return false;
         }
         else
@@ -83,12 +84,13 @@ exit:
         PluginMenu *Menu = new PluginMenu("KeroZengine", 1, 0, 1, "An MH4U plugin.\nGives you access to cheats, AR codes and others tools."),
         &PMenu = *Menu;
 
+        OSD::Notify(Color::Cyan << "Plugin By KeRoZeN");
+
         if(!InitMenu(*Menu))
         {
+            OSD::Notify(Color::Red << "Wrong game or game version. Exit...");
             goto END;
         }
-
-        OSD::Notify(Color::Cyan << "Plugin By KeRoZeN");
 
         Menu->SynchronizeWithFrame(true);
         Menu->ShowWelcomeMessage(false);
