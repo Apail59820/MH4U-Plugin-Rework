@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include "cheats.hpp"
+
 namespace CTRPluginFramework
 {
     static void    ToggleTouchscreenForceOn(void)
@@ -78,25 +80,26 @@ exit:
 
     int     main(void)
     {
-        PluginMenu *menu = new PluginMenu("Action Replay", 0, 7, 4,
-                                            "An MH4U plugin.\nGives you access to cheats, AR codes and others tools.");
+        PluginMenu *Menu = new PluginMenu("KeroZengine", 1, 0, 1, "An MH4U plugin.\nGives you access to cheats, AR codes and others tools."),
+        &PMenu = *Menu;
 
-        menu->SynchronizeWithFrame(true);
-
-        if(InitMenu(*menu))
-        {
-
-        }
-        else
+        if(!InitMenu(*Menu))
         {
             goto END;
         }
 
-        menu->Run();
+        OSD::Notify(Color::Cyan << "Plugin By KeRoZeN");
+
+        Menu->SynchronizeWithFrame(true);
+        Menu->ShowWelcomeMessage(false);
+
+        PMenu += InitializePluginData_Callback;
+
+        Menu->Run();
 
         END:
 
-        delete menu;
+        delete Menu;
 
         return (0);
     }

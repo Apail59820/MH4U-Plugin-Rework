@@ -4,6 +4,8 @@
 #include <3ds.h>
 #include <CTRPluginFramework.hpp>
 
+#include "addresses.hpp"
+
 namespace CTRPluginFramework
 {
     class PlayerInstance
@@ -13,19 +15,18 @@ namespace CTRPluginFramework
             PlayerInstance();
             virtual ~PlayerInstance();
 
-            PlayerInstance * GetInstance(void);
-
-            void Update(void);
+            static PlayerInstance * GetInstance(void);
 
             bool IsLoaded(void);
-
-        private : 
-
-        static PlayerInstance* MainPlayerInstance;
-        
-        static u32 PlayerAddy;
-
     };
+
+    namespace MH4U
+    {
+        namespace Instances
+        {
+            extern PlayerInstance* MainPlayer;
+        }
+    }
 }
 
 #endif

@@ -2,34 +2,28 @@
 
 namespace CTRPluginFramework
 {
-    PlayerInstance* PlayerInstance::MainPlayerInstance = nullptr;
-    u32 PlayerInstance::PlayerAddy = 0;
+    PlayerInstance* MH4U::Instances::MainPlayer = nullptr;
 
     PlayerInstance::PlayerInstance()
     {
-        this->Update();
+        //PlayerInstance CTOR
     }
 
-    ~PlayerInstance::PlayerInstance()
+    PlayerInstance::~PlayerInstance()
     {
-        MainPlayerInstance = nullptr;
+        MH4U::Instances::MainPlayer = nullptr;
     }
 
     PlayerInstance * PlayerInstance::GetInstance(void)
     {
-        if (MainPlayerInstance == nullptr)
-            MainPlayerInstance = new PlayerInstance;
+        if (MH4U::Instances::MainPlayer == nullptr)
+            MH4U::Instances::MainPlayer = new PlayerInstance;
 
-        return MainPlayerInstance;
-    }
-
-    void PlayerInstance::Update(void)
-    {
-        PlayerInstance = *(u32 *)Player_Pointer;
+        return MH4U::Instances::MainPlayer;
     }
 
     bool PlayerInstance::IsLoaded(void)
     {
-        return PlayerInstance != 0;
+        return MH4U::GamePointers::PlayerPointer.GetPointedAddress() != 0;
     }
 }
